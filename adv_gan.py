@@ -234,6 +234,7 @@ class DCGAN():
 
 
     def save_generated_images(self, filename, batch, dir):
+        print("reshape here", batch.shape[0])
         batch = batch.reshape(batch.shape[0], self.img_width, self.img_height)
         rows, columns = 5, 5
 

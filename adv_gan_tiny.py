@@ -264,6 +264,7 @@ class DCGAN():
                 batch_index += 1
 
 
+            print("done")
             start = batch_size*batch_index
             end = len(x_train)
             x_batch, Gx_batch, y_batch = self.get_batches(start, end, x_train, y_train)
