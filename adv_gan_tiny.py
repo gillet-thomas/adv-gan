@@ -236,7 +236,7 @@ class DCGAN():
     def train_GAN(self):
         x_train, y_train = self.prepare_data()
 
-        # self.target.fit(x_train, to_categorical(y_train), epochs=5) #pretrain target
+        self.target.fit(x_train, to_categorical(y_train), epochs=5) #pretrain target
 
         epochs = 50
         batch_size = 128
