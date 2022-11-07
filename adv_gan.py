@@ -30,17 +30,17 @@ class DCGAN():
         inputs = Input(shape=self.input_shape)
         outputs = self.build_generator(inputs)
         self.G = Model(inputs, outputs)
-        # self.G.summary()
+        self.G.summary()
 
         outputs = self.build_discriminator(self.G(inputs))
         self.D = Model(inputs, outputs)
         self.D.compile(loss=keras.losses.binary_crossentropy, optimizer = optimizer_d, metrics=[self.custom_acc])
-        # self.D.summary()
+        self.D.summary()
 
         outputs = self.build_target(self.G(inputs))
         self.target = Model(inputs, outputs)
         self.target.compile(loss=keras.losses.categorical_crossentropy, optimizer=keras.optimizers.Adam(), metrics=['accuracy'])
-        # self.target.summary()
+        self.target.summary()
 
         self.stacked = Model(inputs=inputs, outputs=[self.G(inputs), self.D(self.G(inputs)), self.target(self.G(inputs))])
         self.stacked.compile(loss=[self.generator_loss, keras.losses.binary_crossentropy, keras.losses.binary_crossentropy], optimizer = optimizer_g)
@@ -226,6 +226,9 @@ class DCGAN():
 
             print("Discriminator -- Loss:%f\tAccuracy:%.2f%%\nGenerator -- Loss:%f\nHinge Loss: %f\nTarget Loss: %f\tAccuracy:%.2f%%" %(d_loss, d_acc*100., gan_loss, hinge_loss, adv_loss, target_acc*100.))
 
+
+            print(x_batch[0].shape)
+            
             if epoch == 0:
                 self.save_generated_images("orig", x_batch, 'images')
             if epoch % 5 == 0:

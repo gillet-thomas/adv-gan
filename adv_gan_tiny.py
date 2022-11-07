@@ -245,6 +245,11 @@ class DCGAN():
             num_batches += 1
 
         epochs = 50
+        batch_size = 128
+        num_batches = len(x_train)//batch_size
+        if len(x_train) % batch_size != 0:
+            num_batches += 1
+
 
         for epoch in range(epochs):
             print("Epoch " + str(epoch))
@@ -280,7 +285,9 @@ class DCGAN():
             print(misclassified)
 
             print("Discriminator -- Loss:%f\tAccuracy:%.2f%%\nGenerator -- Loss:%f\nHinge Loss: %f\nTarget Loss: %f\tAccuracy:%.2f%%" %(d_loss, d_acc*100., gan_loss, hinge_loss, adv_loss, target_acc*100.))
-
+            
+            print(x_batch[0].shape)
+            
             if epoch == 0:
                 self.save_generated_images("orig", x_batch, 'images')
             if epoch % 5 == 0:
